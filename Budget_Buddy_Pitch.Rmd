@@ -1,0 +1,62 @@
+---
+title: "Budget Buddy"
+subtitle: "A simple, interactive monthly budget planner"
+author: "Your Name"
+date: "October 24, 2026"
+output:
+  ioslides_presentation:
+    widescreen: true
+    self_contained: true
+---
+
+## The problem & the idea
+
+**It is hard to make a plan when you cannot see where the money goes.** Expenses are spread across rent, food, transport, bills, and everyday spending.
+
+**Budget Buddy** turns a few monthly inputs into a clear snapshot.
+
+- **Inputs:** take-home income, five spending categories, and a savings goal.
+- **Outputs:** money left after expenses, income spent, savings-goal progress, and an expense chart.
+- No account linking or financial jargon; a built-in “How to use” tab explains the fields.
+- A reset button restores the example values.
+
+## A small, reproducible example
+
+```{r budget-example, echo=TRUE}
+income <- 35000
+expenses <- c(Housing = 10000, Food = 6000, Transport = 2500,
+              Bills = 3000, Other = 4000)
+savings_goal <- 5000
+leftover <- income - sum(expenses)
+spent_pct <- round(sum(expenses) / income * 100, 1)
+data.frame(
+  `Monthly income` = income,
+  `Listed expenses` = sum(expenses),
+  `Money left` = leftover,
+  `Income spent (%)` = spent_pct,
+  `Savings goal` = savings_goal,
+  check.names = FALSE
+)
+```
+
+The example calculation is run when this presentation is knitted. Your live app recalculates the same kind of summary from the values a user enters.
+
+## How it works
+
+1. **UI (`ui.R`)** collects monthly numbers and explains how to use the app.
+2. **Server (`server.R`)** validates empty/negative values, totals expenses, calculates remaining money and savings-goal status, and renders a chart and a suggestion.
+3. **Reactive updates** refresh the results when a value changes.
+
+The app uses R Shiny and base R plotting, so it does not need a separate plotting package.
+
+## Try it and next steps
+
+**Budget Buddy is a lightweight starting point for a more intentional monthly plan.**
+
+- Change the sample amounts to match a typical month.
+- Compare expense categories and notice what drives the total.
+- Adjust the savings goal to see whether it fits the plan.
+
+**Run locally:** place `ui.R` and `server.R` in one folder, then run `shiny::runApp()` from that folder.
+
+**Created:** October 24, 2026
